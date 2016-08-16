@@ -1,0 +1,14 @@
+*.pyc
+__pycache__
+
+venv
+.coverage
+coverage
+
+.html_coverage
+
+# sqlite3
+*.db
+.vagrant
+
+.ropeproject
