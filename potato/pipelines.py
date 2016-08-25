@@ -12,6 +12,7 @@ class PotatoPipeline( object ):
     def process_item( self, item, spider ):
         self.clean_body( item )
         self.clean_videos_url( item )
+        self.clean_urls( item )
         return item
 
     def clean_body( self, item ):
@@ -22,3 +23,7 @@ class PotatoPipeline( object ):
         for video_url in item[ 'videos' ]:
             result.append( parse.unquote( video_url ) )
         item[ 'videos' ] = result
+
+    def clean_urls( self, item ):
+        item[ 'link' ] = parse.unquote( item[ 'link' ] )
+        item[ 'source' ] = parse.unquote( item[ 'source' ] )

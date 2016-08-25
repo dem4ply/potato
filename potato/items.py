@@ -7,6 +7,7 @@ import requests
 class Crunchyroll_article( scrapy.Item ):
     link  = scrapy.Field()
     title = scrapy.Field()
+    subtitle = scrapy.Field()
     date = scrapy.Field()
     content = scrapy.Field()
     source = scrapy.Field()

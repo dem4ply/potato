@@ -35,6 +35,8 @@ class Chunchyroll_news( Spider ):
         bodys_text = bodys.xpath( 'string()' ).extract()
         article[ 'title' ] = response.css( '.crunchynews-header a' )\
                                      .xpath( 'string()' ).extract_first()
+        article[ 'subtitle' ] = response.xpath( '//h2/@string()' )\
+                                        .extract_first()
         article[ 'content' ] = ' '.join( bodys_text )
 
         article[ 'date' ] = response.css( '.post-date' )\
