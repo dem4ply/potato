@@ -15,16 +15,8 @@ class Crunchyroll_article( scrapy.Item ):
 
     def save( self ):
         d = dict( self )
-        """
-        from pprint import pprint as print
-        print( 'item save ' )
-        if not d[ 'source' ]:
-            print( '=='*100)
-        print( d )
-        """
-        """
-        response = requests.post( 'http://magi:8000/papernews/test/',
-                                  data=json.dumps( d ),
-                                  headers={ 'content-type': 'application/json' } )
+        str_json = json.dumps( d )
+        response = requests.post(
+            'http://magi:8000/crunchiroll/newspaper/', data=str_json,
+            headers={ 'content-type': 'application/json' } )
         return response.status_code == 204
-        """

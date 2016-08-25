@@ -20,5 +20,6 @@ class PotatoPipeline( object ):
     def clean_videos_url( self, item ):
         result = []
         for video_url in item[ 'videos' ]:
-            result.append( parse.unquote( video_url ) )
+            url = parse.unquote( video_url )
+            result.append( { 'link': url } )
         item[ 'videos' ] = result
