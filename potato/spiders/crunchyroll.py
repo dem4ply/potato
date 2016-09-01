@@ -19,19 +19,29 @@ class Chunchyroll_news( Spider ):
         super().__init__( *args, **kargs )
         self.craw_all_news = bool( kargs.get( 'craw_all_news', False ) )
 
-    def make_requests_from_url( self, url ):
-        return scrapy.Request( url, headers={
-            'Accept-Language': "es-ES,es;q=0.8,en;q=0.6"
-        } )
+    def make_requests_from_url( self, url, callback=None ):
+        #print( url )
+        if callback:
+            return scrapy.Request( url, headers={
+                'Accept-Language': "es-ES,es;q=0.8,en;q=0.6"
+            }, callback=callback )
+        else:
+            return scrapy.Request( url, headers={
+                'Accept-Language': "es-ES,es;q=0.8,en;q=0.6"
+            } )
 
     def parse( self, response ):
         if self.craw_all_news:
             previous_url = self.get_previous_url( response )
-            yield scrapy.Request( previous_url, callback=self.parse )
+            #yield scrapy.Request( previous_url, callback=self.parse )
+            yield self.make_requests_from_url( previous_url,
+                                               callback=self.parse )
 
         links_articles = self.get_links_of_articles( response )
         for link in links_articles:
-            yield scrapy.Request( link, callback=self.parse_article )
+            #yield scrapy.Request( link, callback=self.parse_article )
+            yield self.make_requests_from_url( link,
+                                               callback=self.parse_article )
 
     def parse_article( self, response ):
         article = Crunchyroll_article()
