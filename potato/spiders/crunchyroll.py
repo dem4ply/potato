@@ -1,6 +1,5 @@
 from scrapy.spiders import Spider
 import scrapy
-from snippet.lxml import parse
 
 from potato.items import Crunchyroll_article
 
@@ -9,7 +8,12 @@ class Chunchyroll_news( Spider ):
     name = "crunchyroll_new"
     allowed_domains = [ 'www.crunchyroll.com' ]
     start_urls = [ 'http://www.crunchyroll.com/news' ]
-    #start_urls = [ 'http://www.crunchyroll.com/anime-news/2016/08/24/kyoto-animation-cuelga-vdeos-subtitulados-para-sordos-de-la-pelcula-de-koe-no-katachi' ]
+
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'potato.pipelines.Crunchyroll_clean': 300,
+        }
+    }
 
     def __init__( self, *args, **kargs ):
         super().__init__( *args, **kargs )
@@ -35,7 +39,7 @@ class Chunchyroll_news( Spider ):
         bodys_text = bodys.xpath( 'string()' ).extract()
         article[ 'title' ] = response.css( '.crunchynews-header a' )\
                                      .xpath( 'string()' ).extract_first()
-        article[ 'subtitle' ] = response.xpath( '//h2/@string()' )\
+        article[ 'subtitle' ] = response.xpath( '//h2/text()' )\
                                         .extract_first()
         article[ 'content' ] = ' '.join( bodys_text )
 
@@ -52,7 +56,7 @@ class Chunchyroll_news( Spider ):
     def get_previous_url( self, response ):
         previous_page = response.css( '.previous a' )
         if previous_page:
-            previous_url = previous_url.xpath( '@href' ).extract_first()
+            previous_url = previous_page.xpath( '@href' ).extract_first()
             previous_url = response.urljoin( previous_url )
             return previous_url
 
