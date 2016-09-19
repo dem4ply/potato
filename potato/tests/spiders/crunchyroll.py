@@ -1,13 +1,13 @@
 import unittest
 
-from potato.spiders.crunchyroll import Chunchyroll_news
+from potato.spiders.crunchyroll import Crunchyroll_news
 from potato.tests.snippet.response import fake_response_from_file
 
 
 class Test_crunchyroll( unittest.TestCase ):
 
     def setUp( self ):
-        self.spider = Chunchyroll_news()
+        self.spider = Crunchyroll_news()
 
     def test_response_article( self, response=None, test_video=True ):
         if response is None:

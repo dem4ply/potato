@@ -4,7 +4,9 @@ import scrapy
 from potato.items import Crunchyroll_article
 
 
-class Chunchyroll_news( Spider ):
+__all__ = [ 'Crunchyroll_news' ]
+
+class Crunchyroll_news( Spider ):
     name = "crunchyroll_new"
     allowed_domains = [ 'www.crunchyroll.com' ]
     start_urls = [ 'http://www.crunchyroll.com/news' ]
@@ -20,7 +22,6 @@ class Chunchyroll_news( Spider ):
         self.craw_all_news = bool( kargs.get( 'craw_all_news', False ) )
 
     def make_requests_from_url( self, url, callback=None ):
-        #print( url )
         if callback:
             return scrapy.Request( url, headers={
                 'Accept-Language': "es-ES,es;q=0.8,en;q=0.6"
